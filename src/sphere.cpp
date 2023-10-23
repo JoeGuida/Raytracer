@@ -20,5 +20,6 @@ bool intersects(const Ray& ray, const Sphere& sphere, RaycastHit& hit) {
 		t2 = INFINITY;
 
 	hit.points = { t1, t2 };
+	hit.material = sphere.get_material();
 	return true;
 }

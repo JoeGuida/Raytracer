@@ -3,6 +3,9 @@
 
 #include <fstream>
 
+#include "spdlog/spdlog.h"
+#include "spdlog/stopwatch.h"
+
 #include "filesystem.hpp"
 #include "scene.hpp"
 
