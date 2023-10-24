@@ -19,7 +19,12 @@ bool intersects(const Ray& ray, const Sphere& sphere, RaycastHit& hit) {
 	if (t2 < 0.0f)
 		t2 = INFINITY;
 
-	hit.points = { t1, t2 };
+	hit.points = { ray.get_origin() + ray.get_direction() * t1, ray.get_origin() + ray.get_direction() * t2 };
 	hit.material = sphere.get_material();
+	hit.normals = {
+		sphere.get_normal(ray.get_origin() + ray.get_direction() * t1),
+		sphere.get_normal(ray.get_origin() + ray.get_direction() * t2)
+	};
+
 	return true;
 }

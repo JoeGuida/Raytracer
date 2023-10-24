@@ -16,6 +16,7 @@ public:
 	vec3 get_center() const { return center; }
 	float get_radius() const { return radius; }
 	Material get_material() const { return material; }
+	vec3 get_normal(const vec3& point) const { return normalize(point - center); }
 
 	Sphere(const vec3& center, float radius, const Material& material) : center(center), radius(radius), material(material) {}
 	Sphere(const Sphere&) = default;

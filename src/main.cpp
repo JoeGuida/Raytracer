@@ -2,6 +2,7 @@
 
 #include "camera.hpp"
 #include "canvas.hpp"
+#include "lights.hpp"
 #include "scene.hpp"
 #include "sphere.hpp"
 #include "renderer.hpp"
@@ -24,8 +25,18 @@ int main() {
 
 	// add a sphere to the scene
 	spdlog::info("Adding items to scene");
-	Sphere sphere(vec3(0.0f), 1.0f, Material(vec3(1.0f, 0.0f, 1.0f)));
+	Sphere sphere(vec3(-0.5f, 0.0f, 0.0f), 1.0f, Material(vec3(1.0f, 0.0f, 0.0f), 100.0f));
+	Sphere sphere1(vec3(0.5f, 0.0f, 5.0f), 1.0f, Material(vec3(0.0f, 0.0f, 1.0f), 500.0f));
 	scene.add(sphere);
+	scene.add(sphere1);
+
+	// add some lights to the scene
+	AmbientLight* ambient_light = new AmbientLight(0.2f);
+	DirectionalLight* directional_light = new DirectionalLight(0.4f, vec3(-1.0f, -1.0f, 10.0f));
+	PointLight* point_light = new PointLight(0.4f, vec3(0.0f, 0.0f, -5.0f), 32.0f);
+	scene.add(ambient_light);
+	//scene.add(directional_light);
+	scene.add(point_light);
 
 	// render the scene
 	spdlog::info("Rendering the scene");
