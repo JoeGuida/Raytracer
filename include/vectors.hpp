@@ -113,5 +113,6 @@ float magnitude(const vec3& v);
 vec3 normalize(const vec3& v);
 vec3 perpendicular(const vec3& a, const vec3& b);
 vec3 project(const vec3& a, const vec3& b);
+vec3 reflect(const vec3& a, const vec3& b);
 
 #endif

@@ -18,4 +18,11 @@ static float radians(float degrees) {
 	return degrees * (PI / 180.0f);
 }
 
+static float clamp(float n, float min, float max) {
+	if (n < min)
+		return min;
+	if (n > max)
+		return max;
+}
+
 #endif

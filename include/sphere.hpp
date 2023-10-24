@@ -25,5 +25,6 @@ public:
 };
 
 bool intersects(const Ray& ray, const Sphere& sphere, RaycastHit& hit);
+bool intersects(const Ray& ray, const Sphere& sphere);
 
 #endif

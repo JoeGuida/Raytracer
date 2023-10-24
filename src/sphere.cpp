@@ -28,3 +28,16 @@ bool intersects(const Ray& ray, const Sphere& sphere, RaycastHit& hit) {
 
 	return true;
 }
+
+bool intersects(const Ray& ray, const Sphere& sphere) {
+	float r = sphere.get_radius();
+	vec3 a = sphere.get_center() - ray.get_origin();
+	vec3 b = project(a, ray.get_direction());
+	vec3 e = a - b;
+	float fSq = r * r - dot(e, e);
+
+	if (fSq < 0.0f)
+		return false;
+
+	return true;
+}
