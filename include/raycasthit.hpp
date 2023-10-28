@@ -4,21 +4,23 @@
 #include <utility>
 
 #include "material.hpp"
+#include "shape.hpp"
+#include "vectors.hpp"
 
 class RaycastHit {
 public:
-	std::pair<vec3, vec3> normals;
-	std::pair<vec3, vec3> points;
-	Material material;
+	Shape const* object;
+	vec3 normal;
+	vec3 point;
 
 	RaycastHit& operator=(const RaycastHit& hit) {
-		normals = hit.normals;
-		points = hit.points;
-		material = hit.material;
-		return *this;
+		object = hit.object;
+		normal = hit.normal;
+		point = hit.point;
 	}
 
-	RaycastHit() : material(Material(vec3(0.0f), 0.0f)), normals({vec3(0.0f), vec3(0.0f)}), points({ vec3(0.0f), vec3(0.0f) }) {}
+	RaycastHit() : object(nullptr), normal(vec3(0.0f)), point(vec3(0.0f)) {}
+	RaycastHit(Shape* object, const vec3& normal, const vec3& point) : object(object), normal(normal), point(point) {}
 	RaycastHit(const RaycastHit&) = default;
 	RaycastHit(RaycastHit&&) = default;
 	virtual ~RaycastHit() = default;

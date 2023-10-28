@@ -5,13 +5,9 @@
 #include "vectors.hpp"
 
 class Viewport {
-private:
+public:
 	float width;
 	float height;
-
-public:
-	float get_width() const { return width; }
-	float get_height() const { return height; }
 
 	Viewport(float width, float height) : width(width), height(height) {}
 	Viewport(const Viewport&) = default;

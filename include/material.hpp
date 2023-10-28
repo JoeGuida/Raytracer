@@ -4,21 +4,15 @@
 #include "vectors.hpp"
 
 class Material {
-private:
+public:
 	vec3 color;
+	float reflectivity;
 	float specularity;
 
-public:
-	vec3 get_color() const { return color; }
-	float get_specularity() const { return specularity; }
-
-	Material& operator=(const Material& mat) {
-		color = mat.color;
-		specularity = mat.specularity;
-		return *this;
-	}
-
-	Material(const vec3& color, float specularity) : color(color), specularity(specularity) {}
+	Material(const vec3& color, float reflectivity, float specularity) : 
+		color(color), 
+		reflectivity(reflectivity), 
+		specularity(specularity) {}
 	Material(const Material&) = default;
 	Material(Material&&) = default;
 	virtual ~Material() = default;

@@ -1,6 +1,20 @@
 #include "sphere.hpp"
 
-bool intersects(const Ray& ray, const Sphere& sphere, RaycastHit& hit) {
+bool intersects(const Ray& ray, const Sphere& sphere) {
+	float r = sphere.get_radius();
+	vec3 a = sphere.get_center() - ray.get_origin();
+	vec3 b = project(a, ray.get_direction());
+	vec3 e = a - b;
+	float fSq = r * r - dot(e, e);
+
+	if (fSq < 0.0f)
+		return false;
+
+	return true;
+}
+
+bool intersects(const Ray& ray, const Sphere& sphere, std::array<RaycastHit*, 2>& hits) {
+	std::array<float, 2> t;
 	float r = sphere.get_radius();
 	vec3 a = sphere.get_center() - ray.get_origin();
 	vec3 b = project(a, ray.get_direction());
@@ -11,33 +25,18 @@ bool intersects(const Ray& ray, const Sphere& sphere, RaycastHit& hit) {
 		return false;
 
 	float f = sqrtf(fSq);
-	float t1 = magnitude(b) - f;
-	float t2 = magnitude(b) + f;
+	t[0] = magnitude(b) - f;
+	t[1] = magnitude(b) + f;
 
-	if (t1 < 0.0f)
-		t1 = INFINITY;
-	if (t2 < 0.0f)
-		t2 = INFINITY;
-
-	hit.points = { ray.get_origin() + ray.get_direction() * t1, ray.get_origin() + ray.get_direction() * t2 };
-	hit.material = sphere.get_material();
-	hit.normals = {
-		sphere.get_normal(ray.get_origin() + ray.get_direction() * t1),
-		sphere.get_normal(ray.get_origin() + ray.get_direction() * t2)
-	};
-
-	return true;
-}
-
-bool intersects(const Ray& ray, const Sphere& sphere) {
-	float r = sphere.get_radius();
-	vec3 a = sphere.get_center() - ray.get_origin();
-	vec3 b = project(a, ray.get_direction());
-	vec3 e = a - b;
-	float fSq = r * r - dot(e, e);
-
-	if (fSq < 0.0f)
-		return false;
+	for (int i = 0; i < t.size(); i++) {
+		if (t[i] < 0.0f)
+			continue;
+		
+		hits[i] = new RaycastHit;
+		hits[i]->object = &sphere;
+		hits[i]->normal = sphere.get_normal(ray.get_origin() + ray.get_direction() * t[i]);
+		hits[i]->point = ray.get_origin() + ray.get_direction() * t[i];
+	}
 
 	return true;
 }
