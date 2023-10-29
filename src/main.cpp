@@ -26,19 +26,20 @@ int main() {
 
 	// add a sphere to the scene
 	spdlog::info("Adding items to scene");
-	std::array<Sphere, 3> spheres = {
-		Sphere(vec3(0.0f), 2.5f, Material(vec3(1.0f, 0.0f, 0.0f), 1.0f, 1000000.0f)),
-		Sphere(vec3(-5.0f, -1.0f, 0.0f), 1.5f, Material(vec3(0.0f, 1.0f, 0.0f), 1.0f, 100000.0f)),
-		Sphere(vec3(5.0f, -1.0f, 0.0f), 1.5f, Material(vec3(0.0f, 0.0f, 1.0f), 1.0f, 10.0f))
+	std::array<Sphere, 4> spheres = {
+		Sphere(vec3(0.0f), 2.5f, Material(vec3(1.0f, 0.0f, 0.0f), 1.0f, 50.0f)),
+		Sphere(vec3(0.0f, 5.5f, 0.0f), 2.5f, Material(vec3(1.0f, 1.0f, 0.0f), 1.0f, 50.0f)),
+		Sphere(vec3(-5.0f, -1.0f, 0.0f), 1.5f, Material(vec3(0.0f, 1.0f, 0.0f), 1.0f, 25.0f)),
+		Sphere(vec3(5.0f, -1.0f, 0.0f), 1.5f, Material(vec3(0.0f, 0.0f, 1.0f), 1.0f, 15.0f))
 	};
-	for (const Sphere& sphere : spheres)
+	for (const Sphere& sphere : spheres) {
 		scene.add(sphere);
+	}
 
 	// add some lights to the scene
 	AmbientLight* ambient_light = new AmbientLight(0.2f);
-	DirectionalLight* directional_light = new DirectionalLight(0.2f, vec3(-1.0f, -1.0f, 1000.0f));
+	DirectionalLight* directional_light = new DirectionalLight(1.0f, vec3(1.0f, 1.0f, 0.0f));
 	PointLight* point_light = new PointLight(1.0f, vec3(0.0f, 0.0f, -7.5f), 32.0f);
-	PointLight* point_light1 = new PointLight(-10.0f, vec3(0.3f, -1.0f, 0.0f), 32.0f);
 
 	scene.add(ambient_light);
 	scene.add(directional_light);

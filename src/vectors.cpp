@@ -223,8 +223,8 @@ vec3 project(const vec3& a, const vec3& b) {
 	return b * dot(a, b) / dot(b, b);
 }
 
-vec3 reflect(const vec3& a, const vec3& b) {
-	return 2 * b * dot(a, b) * b - a;
+vec3 reflect(const vec3& v, const vec3& n) {
+	return v - (2 * dot(v, n) * n);
 }
 
 // ----------------------------------------------------------------------------

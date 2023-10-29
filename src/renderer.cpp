@@ -47,18 +47,17 @@ float Renderer::calculate_lighting(const Ray& ray, const Scene& scene, const Ray
 		}
 
 		// Do not calculate diffuse specular lighting for this light if the point is in shadow
-		Ray shadow_ray(hit.point + hit.normal * bias, light_direction);
-		if (is_any_object_hit(shadow_ray, scene, hit.object))
+		Ray shadow_ray(hit.point + hit.normal * bias, -light_direction);
+		if (is_any_object_hit(shadow_ray, scene))
 			continue;
 
 		// If point is not in shadow, calculate diffuse and specular lighting
 		diffuse += intensity * calculate_diffuse_lighting(hit.normal, light_direction);
 		specular += intensity * calculate_specular_reflections(
 			hit.normal, 
-			light_direction, 
-			ray.get_direction(), 
+			-light_direction, 
+			-ray.get_direction(), 
 			hit.object->get_material().specularity);
-
 	}
 
 	float light_received = ambient + diffuse + specular;
@@ -80,7 +79,7 @@ returns a float in the range [0.0, 1.0] indicating the percentage of light recei
 */
 float Renderer::calculate_specular_reflections(const vec3& normal, const vec3& light_direction, const vec3& view_direction, float specularity) {
 	vec3 r = reflect(light_direction, normal);
-	float specular = dot(r, view_direction) / (magnitude(r) * magnitude(view_direction));
+	float specular = cos(angle(r, view_direction));
 	return std::max(0.0f, std::powf(specular, specularity));
 }
 
@@ -128,15 +127,14 @@ void Renderer::drop_ppm_image(std::ofstream& file, const Scene& scene) {
 checks for ray intersections against all objects in a scene
 returns a bool indicating if any object was hit by the ray
 */
-bool Renderer::is_any_object_hit(const Ray& ray, const Scene& scene, const Shape* exclude) {
+bool Renderer::is_any_object_hit(const Ray& ray, const Scene& scene) {
 	for (const Sphere& sphere : scene.get_spheres()) {
-		rays_cast++;
-
-		if (&sphere == exclude)
-			continue;
-		
-		if (intersects(ray, sphere)) {
-			return true;
+		rays_cast++;	
+		std::array<RaycastHit*, 2> hits;
+		if (intersects(ray, sphere, hits)) {
+			float t = magnitude(hits[0]->point - ray.get_origin());
+			if(t > 0.1f)
+				return true;
 		}
 	}
 
