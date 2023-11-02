@@ -1,5 +1,4 @@
 # Raytracer
----
 This project is a software raytracer build with C++17
 
 ## Current Features
