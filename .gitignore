@@ -401,4 +401,4 @@ FodyWeavers.xsd
 *.sln
 *.vcxproj
 *.vcxproj.*
-img/
+*.ppm
